@@ -1,17 +1,9 @@
 import BONSAI from "../mongo/models/bonsai.js";
 import USER from "../mongo/models/user.js";
 import * as dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
 dotenv.config();
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_URL,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
-});
 
 const getProfileSocial = async (email) => {
   let totalLikes = 0;
@@ -60,17 +52,8 @@ const getAllBonsais = async (req, res) => {
 const createBonsai = async (req, res) => {
   const photoUrl = [];
   try {
-    const {
-      specie,
-      nickname,
-      age,
-      description,
-      likes,
-      photo,
-      hide,
-      createdAt,
-      email,
-    } = req.body;
+    const { specie, nickname, age, description, likes, photo, hide, email } =
+      req.body;
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -79,31 +62,15 @@ const createBonsai = async (req, res) => {
 
     if (!user) throw new Error("User not Found");
 
-    for (const base64 of photo) {
-      // const tempUrl = await cloudinary.uploader.upload(base64);
-
-      // photoUrl.push(tempUrl.secure_url);
-
-      // await cloudinary.uploader.upload(base64, function (error, result) {
-      //   if (error) {
-      //     console.error(error);
-      //   } else {
-      //     console.log(result);
-      //     photoUrl.push(result.secure_url);
-      //   }
-      // });
-      await cloudinary.uploader.upload(base64);
-    }
-
     const newBonsai = await BONSAI.create({
       specie,
       nickname,
       age,
       description,
       likes,
-      // photo: photoUrl,
+      photo,
       hide,
-      createdAt,
+      createdAt: new Date().toISOString(),
       creator: user._id,
     });
 
@@ -179,11 +146,6 @@ const updateBonsai = async (req, res) => {
       createdAt,
     } = req.body;
 
-    for (const base64 of photo) {
-      const tempUrl = await cloudinary.uploader.upload(base64);
-      photoUrl.push(tempUrl.secure_url);
-    }
-
     const updatedBonsai = await BONSAI.findByIdAndUpdate(
       { _id: id },
       {
@@ -192,7 +154,7 @@ const updateBonsai = async (req, res) => {
         age,
         description,
         likes,
-        photo: photoUrl || photo,
+        photo,
         hide,
         createdAt,
       },
