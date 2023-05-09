@@ -187,12 +187,6 @@ const deleteBonsai = async (req, res) => {
     );
     await BONSAI.findByIdAndRemove(id);
 
-    for (const image of bonsaiToDelete.photo) {
-      const publicId = image.match(/\/([^/]+)\.[^.]+$/)[1];
-
-      cloudinary.uploader.destroy(publicId, function (error, result) {});
-    }
-
     res.status(200).json({ message: "Bonsai Deleted!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
