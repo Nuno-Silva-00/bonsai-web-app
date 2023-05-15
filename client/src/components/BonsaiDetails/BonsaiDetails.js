@@ -47,7 +47,7 @@ const BonsaiDetails = () => {
   const editBonsai = () => {
     navigate(`/createBonsai/${id}`);
   };
-  
+
   const removeBonsai = () => {
     dispatch(deleteBonsai(bonsai._id));
     navigate("/");
@@ -72,31 +72,30 @@ const BonsaiDetails = () => {
       >
         <Toolbar className={classes.toolbar}>
           <Typography variant="h3">{bonsai.specie}</Typography>
-
-          <Box className={classes.button} display="flex">
-            <Box sx={{ marginLeft: "auto" }}>
-              <Button
-                disabled={userLoggedIn === bonsai.creator.email ? false : true}
-                color="secondary"
-                variant="elevated"
-                nowrap="true"
-                component="div"
-                onClick={editBonsai}
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                disabled={userLoggedIn === bonsai.creator.email ? false : true}
-                color="error"
-                variant="elevated"
-                nowrap="true"
-                component="div"
-                onClick={removeBonsai}
-              >
-                <DeleteOutlineIcon />
-              </Button>
+          {userLoggedIn === bonsai.creator.email ? (
+            <Box className={classes.button} display="flex">
+              <Box sx={{ marginLeft: "auto" }}>
+                <Button
+                  color="secondary"
+                  variant="elevated"
+                  nowrap="true"
+                  component="div"
+                  onClick={editBonsai}
+                >
+                  <EditIcon />
+                </Button>
+                <Button
+                  color="error"
+                  variant="elevated"
+                  nowrap="true"
+                  component="div"
+                  onClick={removeBonsai}
+                >
+                  <DeleteOutlineIcon />
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          ) : null}
         </Toolbar>
 
         <div className={classes.container}>

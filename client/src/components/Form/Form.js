@@ -182,7 +182,7 @@ const Form = () => {
                 color="success"
                 type="submit"
                 onClick={handleSubmit}
-                disabled={bonsai.photo ? false : true}
+                disabled={bonsaiData.photo.length > 0 ? false : true}
               >
                 Submit
               </Button>
