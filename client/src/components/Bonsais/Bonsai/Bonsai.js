@@ -58,6 +58,7 @@ const Bonsai = ({ bonsai, setTotalLikesState, totalLikesState }) => {
         alt={bonsai.specie}
         image={bonsai.photo[bonsai.photo.length - 1]}
         title={bonsai.specie}
+        onClick={openPost}
         component="div"
       />
 

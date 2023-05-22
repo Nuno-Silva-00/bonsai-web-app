@@ -7,7 +7,7 @@ import Bonsai from "./Bonsai/Bonsai";
 const Bonsais = () => {
   const { bonsais, isLoading } = useSelector((state) => state.bonsais);
 
-  if (!bonsais?.length && isLoading) return "No Bonsais";
+  if (!bonsais?.length && !isLoading) return "No Bonsais";
 
   return isLoading ? (
     <CircularProgress />
