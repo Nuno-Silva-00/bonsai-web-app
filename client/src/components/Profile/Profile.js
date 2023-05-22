@@ -22,7 +22,7 @@ const Profile = () => {
     setTotalLikesState(totalLikes);
   }, [dispatch, email, totalLikes]);
 
-  if (!userProfile?.allBonsais.length && isLoading) return "No Bonsais";
+  if (!userProfile?.allBonsais.length && !isLoading) return "No Bonsais";
   return isLoading ? (
     <CircularProgress />
   ) : (
